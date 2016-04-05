@@ -13,32 +13,31 @@ import java.sql.DriverManager;
  * @author capacitaciones
  */
 public class Conexion {
+
     protected static Connection cnn;
-    
-    protected static void conectar(){
-       try {   
-       Class.forName("com.mysql.jdbc.Driver");
-       cnn = DriverManager.getConnection(
-               "jdbc:mysql//169.254.43.21:3306/veterinaria",
-               "root", 
-               ""
-       );
-       }
-       catch (Exception e){
-           e.printStackTrace(System.err);
-       }
-           
+
+    protected static void conectar() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            cnn = DriverManager.getConnection(
+                    "jdbc:mysql://192.168.7.199:3306/veterinaria",
+                    "root",
+                    ""
+            );
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+
     }
-    
-    protected static void desconectar(){
-      
+
+    protected static void desconectar() {
+
         try {
             cnn.close();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
-        
+
     }
-    
-    
+
 }

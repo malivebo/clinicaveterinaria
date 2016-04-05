@@ -5,6 +5,8 @@
  */
 package co.edu.intecap.clinicaveterinaria;
 
+import co.edu.intecap.clinicaveterinaria.vista.Ventana;
+
 /**
  *
  * @author capacitaciones
@@ -15,7 +17,7 @@ public class Principal {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        new Ventana().setVisible(true);
     }
     
 }
