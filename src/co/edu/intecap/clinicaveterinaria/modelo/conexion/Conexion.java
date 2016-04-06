@@ -20,7 +20,7 @@ public class Conexion {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             cnn = DriverManager.getConnection(
-                    "jdbc:mysql://192.168.7.199:3306/veterinaria",
+                    "jdbc:mysql://192.168.7.200:3306/veterinaria",
                     "root",
                     ""
             );

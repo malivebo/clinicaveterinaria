@@ -43,7 +43,7 @@ public class TipoMascotaDelegado {
         }
     }
 
-    public List<TipoMascotaVo> consultarTipoMascotas(TipoMascotaVo tipomascotaVo){
+    public List<TipoMascotaVo> consultarTipoMascotas(){
         List<TipoMascotaVo> listaTipoMascotas; 
         try {
             listaTipoMascotas = this.tipomascotaDao.consultar();
