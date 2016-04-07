@@ -39,7 +39,14 @@ public class TipoMascotaPanel extends javax.swing.JPanel {
     private void registrarTipoMascota() {
         tipoMascotaVo.setNombre(txtNombre.getText());
         tipoMascotaVo.setEstado(cbxEstado.isSelected());
-        new TipoMascotaDelegado(this).insertarTipoMascota(tipoMascotaVo);
+        // validar si el id de la constante es mayor a cero  
+        if (tipoMascotaVo.getIdTipoMascota() < 1) {
+           // se crea un nuevo registro de tipo mascota
+           new TipoMascotaDelegado(this).insertarTipoMascota(tipoMascotaVo);
+        } else {
+            new TipoMascotaDelegado(this).editarTipoMascota(tipoMascotaVo);
+        }
+        
         // mensaje de confirmacion de registro
         JOptionPane.showMessageDialog(this, 
                     "Tipo de mascota registrado",
@@ -47,6 +54,7 @@ public class TipoMascotaPanel extends javax.swing.JPanel {
                     JOptionPane.INFORMATION_MESSAGE);
         refrescarTabla();
         limpiarCampos();
+        limpiarConstante();
         
     }
     
@@ -95,7 +103,19 @@ public class TipoMascotaPanel extends javax.swing.JPanel {
         txtNombre.setText("");
         cbxEstado.setSelected(false);
     }
-            
+
+    
+    /**
+     * Reinicia los valores de la contante que se usa para insertar o actualizar un registor de la tabla tipo_mascota
+     */
+    private void limpiarConstante() {
+        // Limpiar el id de tipo de mascota
+        tipoMascotaVo.setIdTipoMascota(0);
+        // limpiar el nombre del tipo mascota
+        tipoMascotaVo.setNombre("");
+        // limpiar el estado del tipo mascota
+        tipoMascotaVo.setEstado(false);
+    } 
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -192,11 +212,26 @@ public class TipoMascotaPanel extends javax.swing.JPanel {
         this.registrarTipoMascota();
     }//GEN-LAST:event_btnGuardarActionPerformed
     
+    /**
+     * Permite obtener el id de un registro de la tbla con datos de la base de datos con el fin de realizar 
+     * el trabajo de edicion de un registro, para ello se usa un objeto que represente 
+     * un registro de la tabla de la base de datos (Vo), para luego enviar dichos datos como parte de los parametros 
+     * de la actualizacion
+     */
+    
     ListSelectionListener tableListener = new ListSelectionListener() {
         @Override
         public void valueChanged(ListSelectionEvent e) {
+            // validar si se ha seleccionado una fila de la tabla
            if (tblTipoMascota.getSelectedRow() > -1) {
                // Se obtiene el id de la fila seleccionada en la tabla
+               // int id --> variable que guarda el id_tipo_mascota de la fila seleccionada
+               // (int) --> casteo del objeto que se  obtiene al seleccionar una fila de la tabla de la interfaz grafica de usuario
+               // se castea a un dato de tipo int 
+               // tblTipoMascota.getValueAt --> Metodo que permite obtener el dato de una celda de la tabla segun dos parametros
+               // "(fila, columna)" este metodo retorna un objeto de tipo object
+               // getSelectedRow() --> metodo que retorna el numero de la fila sobre la cual se ha realizado una seleccion con el mouse
+               // 0 -->  representa el indice de la columna seleccionada, siempre es cero porque representa la primera columna de la tabla
                int id = (int) tblTipoMascota.getValueAt(tblTipoMascota.getSelectedRow(),0);
                // consultar en la base de datos por ese id seleccionado y 
                // guardar el resultado de la consulta en un nuevo objeto de TipoMascotaVo
@@ -228,3 +263,6 @@ public class TipoMascotaPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
+
+
+

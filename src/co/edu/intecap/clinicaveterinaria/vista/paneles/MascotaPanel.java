@@ -5,19 +5,59 @@
  */
 package co.edu.intecap.clinicaveterinaria.vista.paneles;
 
+import co.edu.intecap.clinicaveterinaria.control.ClienteDelegado;
+import co.edu.intecap.clinicaveterinaria.control.TipoMascotaDelegado;
+import co.edu.intecap.clinicaveterinaria.modelo.vo.ClienteVo;
+import co.edu.intecap.clinicaveterinaria.modelo.vo.TipoMascotaVo;
+import java.util.List;
+
 /**
  *
  * @author capacitaciones
  */
 public class MascotaPanel extends javax.swing.JPanel {
+    
+    /**
+     * lista que contiene los tipos de mascota existentes en la base de datos
+     */
+    private List<TipoMascotaVo> listaTipoMascota;
+    
+    /**
+     * Lista que contiene los clientes existentes en la base de datos
+     */
+    private List<ClienteVo> listaClientes;
 
+    
+    
     /**
      * Creates new form MascotaPanel
      */
     public MascotaPanel() {
         initComponents();
+        // cargar con datos las listas
+        this.listaTipoMascota = new TipoMascotaDelegado(this).consultarTipoMascotas();
+        this.listaClientes = new ClienteDelegado(this).consultarClientes();
+        configurarCombos();
     }
 
+    private void configurarCombos() {
+        // se carga el combo box con la lista consultada en la base de datos de tipos de mascota
+        cboTipoMascota.addItem("Seleccone un tipo de mascota");
+        cboCliente.addItem("Seleccone un cliente");
+        for (TipoMascotaVo tipoMascotaVo : listaTipoMascota) {
+            cboTipoMascota.addItem(tipoMascotaVo.getNombre());
+        }
+        for (ClienteVo clienteVo : listaClientes) {
+            cboCliente.addItem(clienteVo.getNombre());
+        }
+    }
+   
+    private int obtenerIdTipoMascotaCombo() {
+        int idSeleccionado = cboTipoMascota.getSelectedIndex();
+        int idTipoMascota = listaTipoMascota.get(idSeleccionado-1).getIdTipoMascota();
+        return idTipoMascota;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,8 +84,6 @@ public class MascotaPanel extends javax.swing.JPanel {
 
         jLabel1.setText("Nombre:");
 
-        txtNombre.setText("jTextField1");
-
         jLabel2.setText("Edad:");
 
         jLabel3.setText("Estado:");
@@ -54,11 +92,7 @@ public class MascotaPanel extends javax.swing.JPanel {
 
         jLabel4.setText("Tipo de Mascota:");
 
-        cboTipoMascota.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel5.setText("Cliente:");
-
-        cboCliente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         tblMascota.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -91,14 +125,15 @@ public class MascotaPanel extends javax.swing.JPanel {
                         .addGap(45, 45, 45)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(cbxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 152, Short.MAX_VALUE))
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                                 .addComponent(btnGuardar)
-                                .addGap(12, 12, 12))))
+                                .addGap(12, 12, 12))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,4 +195,6 @@ public class MascotaPanel extends javax.swing.JPanel {
     private javax.swing.JSpinner txtEdad;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
+
+    
 }

@@ -58,7 +58,7 @@ public class TipoMascotaDao extends Conexion implements GenericoDao<TipoMascotaV
             sentencia.setInt(1, object.getIdTipoMascota());
             sentencia.setString(2, object.getNombre());
             sentencia.setBoolean(3, object.isEstado());
-            
+            sentencia.setInt(4, object.getIdTipoMascota());
             // ejecutar la actualizacion
             sentencia.executeUpdate();
         } catch (Exception e) {

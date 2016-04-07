@@ -43,7 +43,7 @@ public class ClienteDelegado {
         }
     }
 
-    public List<ClienteVo> consultarClientes(ClienteVo clienteVo){
+    public List<ClienteVo> consultarClientes(){
         List<ClienteVo> listaClientes; 
         try {
             listaClientes = this.clienteDao.consultar();
